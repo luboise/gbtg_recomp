@@ -1,6 +1,6 @@
 # Grabbed By The Ghoulies Recompiled
 
-An unofficial native PC port of the original Xbox version of Game Title, with extended graphics options and other enhancements.
+An unofficial native PC port of Grabbed By The Ghoulies.
 
 This port was created using the [Xbox XBE Recomp](https://github.com/TGP482/XboxXBE-Recomp) tool.
 
