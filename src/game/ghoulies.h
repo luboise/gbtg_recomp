@@ -1,5 +1,10 @@
+#include <optional>
+#include <string>
 #include <string_view>
 
 namespace game {
-void SelectScene(std::string_view str);
-}
+
+auto TakeNextPlaycam() -> std::optional<std::string>;
+void SetNextPlaycam(std::string_view str);
+
+}  // namespace game

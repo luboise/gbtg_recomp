@@ -64,7 +64,7 @@ void ui(auto ui) {
     if (ImGui::BeginListBox("Select Scene")) {
         for (const auto& bundlePath : uiData.bundles) {
             if (ImGui::Selectable(bundlePath.data(), false)) {
-                game::SelectScene(bundlePath);
+                game::SetNextPlaycam(bundlePath);
             }
         }
 

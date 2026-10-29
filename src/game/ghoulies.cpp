@@ -1,7 +1,16 @@
 #include "ghoulies.h"
 
-#include "core/log.h"
+#include <optional>
 
-void game::SelectScene(std::string_view str) {
-    LOGR("setting scene to %s", str.data());
+namespace {
+static std::optional<std::string> NextPlaycam = std::nullopt;
 }
+
+auto game::TakeNextPlaycam() -> std::optional<std::string> {
+    if (NextPlaycam) {
+        return std::exchange(NextPlaycam, std::nullopt);
+    }
+
+    return std::nullopt;
+}
+void game::SetNextPlaycam(std::string_view str) { NextPlaycam = str; }
