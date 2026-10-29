@@ -3,6 +3,7 @@
 #include "app/app.h"
 #include "game/ghoulies.h"
 #include "imgui.h"
+#include "kernel/memory.h"
 
 void ui(auto ui);
 
@@ -48,7 +49,7 @@ UiData GetFiles() {
 
     for (const auto& entry : std::filesystem::directory_iterator(assetsDir)) {
         auto path{entry.path()};
-        auto filename{path.filename().string()};
+        auto filename{path.stem().string()};
         data.bundles.push_back(filename);
     }
 
@@ -64,11 +65,15 @@ void ui(auto ui) {
     if (ImGui::BeginListBox("Select Scene")) {
         for (const auto& bundlePath : uiData.bundles) {
             if (ImGui::Selectable(bundlePath.data(), false)) {
-                game::SetNextPlaycam(bundlePath);
+                game::SetNextPlaycam("aid_script_" + bundlePath);
             }
         }
 
         ImGui::EndListBox();
+    }
+
+    if (ImGui::Button("continue")) {
+        game::Continue(mem::Base());
     }
 
     ImGui::End();

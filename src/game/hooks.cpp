@@ -22,6 +22,7 @@ X86_FUNC(sub_00033B50) {
     if (auto optPlaycam{game::TakeNextPlaycam()}; optPlaycam) {
         auto playcam{optPlaycam.value()};
         LOGR("updating playcam to %s", playcam.data());
+        game::SetPlaycamAIDRaw(base, playcam);
     }
 
     __imp__sub_00033B50(ctx, base);
