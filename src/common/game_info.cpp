@@ -1,4 +1,10 @@
 #include "app/app.h"
+#include "core/log.h"
+#include "imgui.h"
+
+#include <vector>
+
+void ui(auto ui);
 
 // what the runtime asks of the game; strings must be set, hooks may stay null
 const app::GameInfo app::kGame = {
@@ -17,7 +23,44 @@ const app::GameInfo app::kGame = {
     .loaded = nullptr,                    // image in memory, before its entry point runs
     .window = nullptr,                    // the game window is up
     .message = nullptr,                   // window messages first; true takes one
-    .ui = nullptr,                        // ImGui drawing each frame
+    .ui = ui,                        // ImGui drawing each frame
     .pad = nullptr,                       // changes a polled pad
     .rumble = nullptr,                    // changes a rumble before it is set
 };
+
+struct UiData {
+	std::vector<std::string> bundles;
+};
+
+namespace {
+	using namespace app;
+
+	UiData GetFiles() {
+		UiData data{};
+
+		GameFiles files{};
+		FindGame(files);
+
+		auto assetsDir = files.dir / "bundles" / "aid_script"; 
+
+		for (const auto& entry : std::filesystem::directory_iterator(assetsDir)) {
+			auto path{entry.path()};
+			auto filename{path.filename().string()};
+			data.bundles.push_back(filename);
+		}
+
+		return data;
+	}
+}
+
+void ui(auto ui) {
+	ImGui::Begin("Debug Window");
+
+	static auto uiData{GetFiles()};
+
+	for (const auto& bundlePath : uiData.bundles) {
+		ImGui::Text("%s", bundlePath.c_str());
+	}
+
+	ImGui::End();
+}
