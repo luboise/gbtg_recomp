@@ -3,6 +3,7 @@
 #include <string_view>
 
 #include "cpu/x86_ops.h"
+#include "types.h"
 
 namespace game {
 
@@ -22,6 +23,8 @@ struct AssetConstructorEntry {
 };
 
 AssetConstructorEntry AssetConstructorEntryFromId(x86_u32u index);
+
+EmbeddedNode<avatar, 0x918>* SceneTree();
 
 // the game uses 1 indexing for type ids
 inline AssetConstructorEntry AssetConstructorEntryFromTypeIndex(

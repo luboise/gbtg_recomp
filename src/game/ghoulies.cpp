@@ -67,7 +67,18 @@ game::AssetConstructorEntry game::AssetConstructorEntryFromId(x86_u32u index) {
 
     return *X86_PTR(AssetConstructorEntry, ptr);
 }
+
 char* game::AssetConstructorEntry::name() {
     auto base{mem::Base()};
     return X86_PTR(char, this->namePtr);
+}
+
+EmbeddedNode<avatar, 0x918>* game::SceneTree() {
+    using Node = EmbeddedNode<avatar, 0x918>;
+
+    auto* base{mem::Base()};
+
+    Node* root{X86_PTR(Node, 0x511b14)};
+
+    return root == nullptr ? nullptr : root->next();
 }
