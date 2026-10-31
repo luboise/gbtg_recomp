@@ -78,11 +78,13 @@ void ui(auto ui) {
 
     auto* sceneTree{game::SceneTree()};
 
-    if (sceneTree != nullptr) {
+    while (sceneTree != nullptr) {
         auto* av{sceneTree->data()};
 
-        ImGui::Text("head node at 0x%p (%f, %f, %f)", av,  //
+        ImGui::Text("node at 0x%p (%f, %f, %f)", av,  //
                     av->pos.x, av->pos.y, av->pos.z);
+
+        sceneTree = sceneTree->next();
     }
 
     ImGui::End();
