@@ -4,6 +4,7 @@
 #include <optional>
 
 #include "cpu/x86_ops.h"
+#include "kernel/memory.h"
 
 namespace {
 static std::optional<std::string> NextPlaycam = std::nullopt;
@@ -56,3 +57,17 @@ void game::SetPlaycamAIDRaw(std::uint8_t* base, std::string_view str) {
 }
 
 void game::Continue(std::uint8_t* base) { X86_MEM32(0x51251c) = 1; }
+
+game::AssetConstructorEntry game::AssetConstructorEntryFromId(x86_u32u index) {
+    auto base{mem::Base()};
+
+    auto vTablesBase{0x30d424};
+
+    auto ptr{vTablesBase + index * sizeof(AssetConstructorEntry)};
+
+    return *X86_PTR(AssetConstructorEntry, ptr);
+}
+char* game::AssetConstructorEntry::name() {
+    auto base{mem::Base()};
+    return X86_PTR(char, this->namePtr);
+}
