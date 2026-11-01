@@ -1,6 +1,8 @@
 #include <string>
 #include <vector>
 
+#include "app/app.h"
+
 namespace debug {
 
 struct UiData {
@@ -8,5 +10,8 @@ struct UiData {
 };
 
 void DrawDebugWindow();
+void UpdatePad(int port, input::Pad& pad);
+
+void ToggleDebugMenu();
 
 }  // namespace debug

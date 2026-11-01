@@ -4,9 +4,12 @@
 #include <vector>
 
 #include "app/app.h"
+#include "core/input.h"
 #include "game/ghoulies.h"
 #include "imgui.h"
 #include "kernel/memory.h"
+
+static bool debugWindowActive{false};
 
 void PrimeNextWindow(ImVec2 pos) {
     ImGui::SetNextWindowPos(pos, ImGuiCond_FirstUseEver);
@@ -50,6 +53,12 @@ void SelectScene(const auto& bundles) {
 }
 
 void debug::DrawDebugWindow() {
+    if (ImGui::IsKeyPressed(ImGuiKey_F11, false)) {
+        ToggleDebugMenu();
+    }
+
+    if (!debugWindowActive) return;
+
     PrimeNextWindow(ImVec2{0, 0});
 
     ImGui::Begin("Debug Window");
@@ -78,3 +87,13 @@ void debug::DrawDebugWindow() {
 
     ImGui::End();
 }
+
+void debug::UpdatePad(int port, input::Pad& pad) {
+    if (debugWindowActive) {
+        pad = input::Pad{
+            .connected = pad.connected,
+        };
+    }
+}
+
+void debug::ToggleDebugMenu() { debugWindowActive = !debugWindowActive; }

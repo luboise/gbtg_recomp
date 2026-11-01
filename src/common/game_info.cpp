@@ -4,6 +4,7 @@
 #include "debug.h"
 
 void ui(auto ui);
+void pad(int port, input::Pad& pad);
 
 // what the runtime asks of the game; strings must be set, hooks may stay null
 const app::GameInfo app::kGame = {
@@ -26,7 +27,7 @@ const app::GameInfo app::kGame = {
     .window = nullptr,   // the game window is up
     .message = nullptr,  // window messages first; true takes one
     .ui = ui,            // ImGui drawing each frame
-    .pad = nullptr,      // changes a polled pad
+    .pad = pad,          // changes a polled pad
     .rumble = nullptr,   // changes a rumble before it is set
 };
 
@@ -35,3 +36,5 @@ struct UiData {
 };
 
 void ui(auto ui) { debug::DrawDebugWindow(); }
+
+void pad(int port, input::Pad& pad) { debug::UpdatePad(port, pad); };
