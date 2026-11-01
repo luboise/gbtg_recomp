@@ -1,9 +1,7 @@
 #include <vector>
 
 #include "app/app.h"
-#include "game/ghoulies.h"
-#include "imgui.h"
-#include "kernel/memory.h"
+#include "debug.h"
 
 void ui(auto ui);
 
@@ -36,56 +34,4 @@ struct UiData {
     std::vector<std::string> bundles;
 };
 
-namespace {
-using namespace app;
-
-UiData GetFiles() {
-    UiData data{};
-
-    GameFiles files{};
-    FindGame(files);
-
-    auto assetsDir = files.dir / "bundles" / "aid_script";
-
-    for (const auto& entry : std::filesystem::directory_iterator(assetsDir)) {
-        auto path{entry.path()};
-        auto filename{path.stem().string()};
-        data.bundles.push_back(filename);
-    }
-
-    return data;
-}
-}  // namespace
-
-void ui(auto ui) {
-    ImGui::Begin("Debug Window");
-
-    static auto uiData{GetFiles()};
-
-    if (ImGui::BeginListBox("Select Scene")) {
-        for (const auto& bundlePath : uiData.bundles) {
-            if (ImGui::Selectable(bundlePath.data(), false)) {
-                game::SetNextPlaycam("aid_script_" + bundlePath);
-            }
-        }
-
-        ImGui::EndListBox();
-    }
-
-    if (ImGui::Button("continue")) {
-        game::Continue(mem::Base());
-    }
-
-    auto* sceneTree{game::SceneTree()};
-
-    while (sceneTree != nullptr) {
-        auto* av{sceneTree->data()};
-
-        ImGui::Text("node at 0x%p (%f, %f, %f)", av,  //
-                    av->pos.x, av->pos.y, av->pos.z);
-
-        sceneTree = sceneTree->next();
-    }
-
-    ImGui::End();
-}
+void ui(auto ui) { debug::DrawDebugWindow(); }
