@@ -1,5 +1,6 @@
 #include "debug.h"
 
+#include <sstream>
 #include <vector>
 
 #include "app/app.h"
@@ -66,7 +67,10 @@ void debug::DrawDebugWindow() {
     while (sceneTree != nullptr) {
         auto* av{sceneTree->data()};
 
-        ImGui::Text("node at 0x%p (%f, %f, %f)", av,  //
+        std::stringstream ss{};
+        ss << av->tag;
+
+        ImGui::Text("%s at 0x%p (%f, %f, %f)", ss.str().c_str(), av,  //
                     av->pos.x, av->pos.y, av->pos.z);
 
         sceneTree = sceneTree->next();

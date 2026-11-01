@@ -1,6 +1,7 @@
 #pragma once
 
 #include <array>
+#include <ostream>
 
 #include "cpu/x86_ops.h"
 #include "templates.h"
@@ -289,6 +290,8 @@ enum class objTag : x86_u16u {
     Weapon_Wheelbarrow = 232,
     Weapon_ZombieArm = 233
 };
+
+std::ostream& operator<<(std::ostream&, objTag);
 
 enum class actorDroneTriggerId {
     Null = 0,

@@ -1,6 +1,5 @@
+#include <string>
 #include <vector>
-
-#include "game/ghoulies.h"
 
 namespace debug {
 
